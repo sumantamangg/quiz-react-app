@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import HomeNavBar from './HomeNavBar'
 
 export default function Home() {
     const [error, setError] = useState()
@@ -19,8 +20,6 @@ export default function Home() {
     }
 
     return (
-    <div>
-        Home
-    </div>
+        <HomeNavBar></HomeNavBar>
     )
 }

@@ -7,7 +7,6 @@ export default function PrivateRoute() {
 
     const { currentUser } = useAuth() 
     if (currentUser){
-        console.log(JSON.stringify(currentUser));
 
     }
     return currentUser ? <Home /> : <Login />

@@ -15,11 +15,6 @@ export default function Signup() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-
-
-        // if (passwordRef.current.value !== passwordConfirmRef.current.value){
-        //     return setError("your passwords do not match.")
-        // }
         try {
             setError('')
             setLoading(true)
@@ -29,11 +24,7 @@ export default function Signup() {
         }
         setLoading(false)
         setMessage('Successfully logged in');
-        // emailRef.current.value = ''
-        // passwordRef.current.value = ''
-        // passwordConfirmRef.current.value = ''
-        //route to home page after logged in.
-        navigate("/home")
+        navigate("/")
 
     }
 
