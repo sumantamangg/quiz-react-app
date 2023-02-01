@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Card, Button, Form, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
@@ -12,7 +12,14 @@ export default function Signup() {
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
     const  {signup}  = useAuth()
+    const {currentUser} = useAuth()
     const navigate = useNavigate()
+
+    useEffect(()=> {
+        if (currentUser) {
+            navigate('/')
+        }
+    }, [])
 
     async function handleSubmit(e) {
         e.preventDefault()

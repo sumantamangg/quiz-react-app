@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import HomeNavBar from './HomeNavBar'
+import Quiz from './Quiz'
 
 export default function Home() {
     const [error, setError] = useState()
@@ -20,6 +21,9 @@ export default function Home() {
     }
 
     return (
-        <HomeNavBar></HomeNavBar>
+        <>
+            <HomeNavBar></HomeNavBar>
+            <Quiz></Quiz>
+        </>
     )
 }
