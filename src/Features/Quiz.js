@@ -4,22 +4,32 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Col';
 import { useSelector, useDispatch} from 'react-redux'
 import { useEffect } from 'react';
-import { fetchQuiz } from './QuizSlice';
+import { fetchQuiz, selectAnswer, nextQuestion, previousQuestion } from './QuizSlice';
 
 
 export default function Quiz() {
     const dispatch = useDispatch()
-    const { allQuestions, loading, error, currentQuestion } = useSelector(state => state.quiz)
-    const [selectedOption, setSelectedOption] = useState('');
+    const { allQuestions, loading, error, currentQuestion, totalQuestions, answers, nextQuestionNumber } = 
+        useSelector(state => state.quiz)
+    //const [selectedOption, setSelectedOption] = useState('');
 
     const handleOptionChange = (e) => {
-        setSelectedOption(e.target.value);
+        //setSelectedOption(e.target.value);
+        dispatch(selectAnswer(e.target.value))
     };
   
     useEffect(() => {
       dispatch(fetchQuiz())
-    }, [dispatch])
+    }, [])
   
+    function handleNextButton(){
+        dispatch(nextQuestion())
+    }
+
+    function handlePreviousButton(){
+        dispatch(previousQuestion())
+    }
+
     function handleSubmit(){
 
     }
@@ -37,30 +47,14 @@ export default function Quiz() {
             </h2>
             <Form onSubmit={handleSubmit}>
             <Form.Group as={Row} className="mb-3">
-            {/* <Form.Label as="legend" column sm={2}>
-                Select your Answers
-            </Form.Label> */}
-            {/* <Col sm={10}>
-                <Form.Check
-                type="radio"
-                label="first radio"
-                name="formHorizontalRadios"
-                id="formHorizontalRadios1"
-                />
-                <Form.Check
-                type="radio"
-                label="second radio"
-                name="formHorizontalRadios"
-                id="formHorizontalRadios2"
-                />
-            </Col> */}
             <div>
                 {allQuestions[currentQuestion]?.all_answers.map((option) => (
                     <div key={option}>
                     <input
                         type="radio"
                         value={option}
-                        checked={selectedOption === option}
+                        //checked={selectedOption === option}
+                        checked={answers[currentQuestion] === option}
                         onChange={handleOptionChange}
                     />
                     <label>{option}</label>
@@ -70,30 +64,31 @@ export default function Quiz() {
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
                 <Col sm={10}>
-                    <Button type="button" >
-                        Previous
-                    </Button>
-                    <Button disabled={false} type="button" style={{marginLeft: "30%"}}>
+                    {currentQuestion > 0 && <Button 
+                        type="button" 
+                        onClick= {()=>{handlePreviousButton()}}>
+                        Previous 
+                    </Button>}
+                    {nextQuestionNumber != totalQuestions &&<Button 
+                        disabled={ nextQuestionNumber > answers.length } 
+                        type="button" 
+                        onClick={()=>{handleNextButton()}}
+                        style={{marginLeft: "30%"}}>
                         Next
-                    </Button>
-                    
+                    </Button>}
                 </Col>
             </Form.Group>
             <Form.Group>
                 <Col sm={10}>
-                <Button disabled={false} type="submit" >
-                        Submit
-                    </Button>
+                {nextQuestionNumber === totalQuestions &&<Button 
+                    disabled={ answers.length != totalQuestions} type="submit" >
+                    Submit
+                </Button>}
                 </Col>
             </Form.Group>
             </Form>
         </Card.Body>
     </Card>
-    {/* <ul>
-        {allQuestions.map(item => (
-            <li key={item.id}>{item.correctAnswer}</li>
-        ))}
-    </ul> */}
 </>
   )
 }

@@ -21,7 +21,9 @@ const quizSlice = createSlice({
       error: null,
       allQuestions: [],
       currentQuestion: 0,
-      answers: []
+      answers: [],
+      totalQuestions: 0,
+      nextQuestionNumber: 1,
     },
     reducers: {
       resetQuiz: (state) => {
@@ -33,27 +35,19 @@ const quizSlice = createSlice({
       },
       selectAnswer: (state, action) => {
         state.answers[state.currentQuestion] = action.payload;
+        state.nextQuestionNumber = state.currentQuestion+1;
+        console.log(state.currentQuestion, state.nextQuestionNumber, state.answers.length, state.totalQuestions)
       },
       nextQuestion: (state) => {
         state.currentQuestion += 1;
+        state.nextQuestionNumber = state.currentQuestion+1;
+        console.log(state.currentQuestion, state.nextQuestionNumber, state.answers.length, state.totalQuestions)
       },
       previousQuestion: (state) => {
         state.currentQuestion -= 1;
+        state.nextQuestionNumber = state.currentQuestion+1;
       }
     },
-    // extraReducers: {
-    //   [fetchQuiz.pending]: (state) => {
-    //     state.loading = true;
-    //   },
-    //   [fetchQuiz.fulfilled]: (state, action) => {
-    //     state.loading = false;
-    //     state.quiz = action.payload;
-    //   },
-    //   [fetchQuiz.rejected]: (state, action) => {
-    //     state.loading = false;
-    //     state.error = action.error;
-    //   }
-    // },
     extraReducers: (builder) => {
       builder
         .addCase(fetchQuiz.pending, (state) => {
@@ -62,6 +56,7 @@ const quizSlice = createSlice({
         .addCase(fetchQuiz.fulfilled, (state, action) =>{
         state.loading = false;
         state.allQuestions = action.payload.results;
+        state.totalQuestions = action.payload.results.length;
       })
         .addCase(fetchQuiz.rejected, (state, action) =>{
         state.loading = false;
