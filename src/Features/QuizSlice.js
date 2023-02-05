@@ -6,7 +6,8 @@ export const fetchQuiz = createAsyncThunk(
     'data/fetchQuiz',
     async () => {
       try {
-        const response = await axios.get('https://the-trivia-api.com/api/questions')
+        //const response = await axios.get('https://the-trivia-api.com/api/questions')
+        const response = await axios.get('https://mocki.io/v1/49752d6c-2809-4388-9d9b-3e498462e624')
         return response.data
       } catch (error) {
         return error
@@ -18,7 +19,7 @@ const quizSlice = createSlice({
     initialState: {
       loading: false,
       error: null,
-      quiz: [],
+      allQuestions: [],
       currentQuestion: 0,
       answers: []
     },
@@ -26,7 +27,7 @@ const quizSlice = createSlice({
       resetQuiz: (state) => {
         state.loading = false;
         state.error = null;
-        state.quiz = [];
+        state.allQuestions = [];
         state.currentQuestion = 0;
         state.answers = [];
       },
@@ -60,7 +61,7 @@ const quizSlice = createSlice({
       })
         .addCase(fetchQuiz.fulfilled, (state, action) =>{
         state.loading = false;
-        state.quiz = action.payload;
+        state.allQuestions = action.payload.results;
       })
         .addCase(fetchQuiz.rejected, (state, action) =>{
         state.loading = false;

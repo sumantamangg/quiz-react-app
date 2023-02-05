@@ -1,4 +1,4 @@
-import react from 'react'
+import react, { useState } from 'react'
 import { Card, Button, Form, Alert } from 'react-bootstrap'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Col';
@@ -7,11 +7,14 @@ import { useEffect } from 'react';
 import { fetchQuiz } from './QuizSlice';
 
 
-
-
 export default function Quiz() {
     const dispatch = useDispatch()
-    const { quiz, loading, error } = useSelector(state => state.quiz)
+    const { allQuestions, loading, error, currentQuestion } = useSelector(state => state.quiz)
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleOptionChange = (e) => {
+        setSelectedOption(e.target.value);
+    };
   
     useEffect(() => {
       dispatch(fetchQuiz())
@@ -27,13 +30,17 @@ export default function Quiz() {
     <>
     <Card>
         <Card.Body>
-            <h2 className='text-center mb-4'> Question goes here</h2>
+            <h2 className='text-center mb-4'> 
+                <>
+                    {allQuestions[currentQuestion]?.question}
+                </>
+            </h2>
             <Form onSubmit={handleSubmit}>
             <Form.Group as={Row} className="mb-3">
             {/* <Form.Label as="legend" column sm={2}>
                 Select your Answers
             </Form.Label> */}
-            <Col sm={10}>
+            {/* <Col sm={10}>
                 <Form.Check
                 type="radio"
                 label="first radio"
@@ -46,7 +53,20 @@ export default function Quiz() {
                 name="formHorizontalRadios"
                 id="formHorizontalRadios2"
                 />
-            </Col>
+            </Col> */}
+            <div>
+                {allQuestions[currentQuestion]?.all_answers.map((option) => (
+                    <div key={option}>
+                    <input
+                        type="radio"
+                        value={option}
+                        checked={selectedOption === option}
+                        onChange={handleOptionChange}
+                    />
+                    <label>{option}</label>
+                    </div>
+                ))}
+            </div>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
                 <Col sm={10}>
@@ -69,11 +89,11 @@ export default function Quiz() {
             </Form>
         </Card.Body>
     </Card>
-    <ul>
-          {quiz.map(item => (
+    {/* <ul>
+        {allQuestions.map(item => (
             <li key={item.id}>{item.correctAnswer}</li>
-          ))}
-    </ul>
+        ))}
+    </ul> */}
 </>
   )
 }
