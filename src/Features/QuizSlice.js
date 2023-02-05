@@ -25,7 +25,8 @@ const quizSlice = createSlice({
       totalQuestions: 0,
       nextQuestionNumber: 1,
       correctAnswers: [],
-      result: 0
+      result: 0,
+      quizComplete: false
     },
     reducers: {
       resetQuiz: (state) => {
@@ -34,6 +35,11 @@ const quizSlice = createSlice({
         state.allQuestions = [];
         state.currentQuestion = 0;
         state.answers = [];
+        state.totalQuestions = 0;
+        state.nextQuestionNumber = 1;
+        state.correctAnswers = [];
+        state.result = 0;
+        state.quizComplete = false
       },
       selectAnswer: (state, action) => {
         state.answers[state.currentQuestion] = action.payload;
@@ -55,6 +61,7 @@ const quizSlice = createSlice({
             state.result ++;
           }
         });
+        state.quizComplete = true;
       }
     },
     extraReducers: (builder) => {

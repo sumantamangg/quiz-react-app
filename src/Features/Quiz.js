@@ -4,12 +4,12 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Col';
 import { useSelector, useDispatch} from 'react-redux'
 import { useEffect } from 'react';
-import { fetchQuiz, selectAnswer, nextQuestion, previousQuestion, calculateResult } from './QuizSlice';
-
+import { fetchQuiz, selectAnswer, nextQuestion, previousQuestion, calculateResult, resetQuiz } from './QuizSlice';
 
 export default function Quiz() {
     const dispatch = useDispatch()
-    const { allQuestions, loading, error, currentQuestion, totalQuestions, answers, nextQuestionNumber } = 
+    const { allQuestions, loading, error, currentQuestion, totalQuestions, 
+        answers, nextQuestionNumber, result, quizComplete } = 
         useSelector(state => state.quiz)
     //const [selectedOption, setSelectedOption] = useState('');
 
@@ -35,9 +35,21 @@ export default function Quiz() {
         dispatch(calculateResult())
     }
 
+    function hanldePlayAgain(){
+        window.location.reload()
+    }
+
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error.message}</p>
+    if (quizComplete) return (
+        <>
+        <p> Your total score out of { totalQuestions} is {result}</p>
+        <button onClick={hanldePlayAgain}> Play Again</button>
+        </>
+    )
+    
   return (
+    
     <>
     <Card>
         <Card.Body>
