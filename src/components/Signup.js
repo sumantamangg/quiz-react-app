@@ -15,7 +15,7 @@ export default function Signup() {
     const {currentUser} = useAuth()
     const navigate = useNavigate()
 
-    useEffect(()=> {
+    useEffect((currentUser,navigate)=> {
         if (currentUser) {
             navigate('/')
         }

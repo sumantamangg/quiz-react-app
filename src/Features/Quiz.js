@@ -3,21 +3,26 @@ import { Card, Button, Form, Alert } from 'react-bootstrap'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Col';
 import { useSelector, useDispatch} from 'react-redux'
-import { fetchQuestions } from '../Features'
 import { useEffect } from 'react';
+import { fetchQuiz } from './QuizSlice';
 
 
 
 
 export default function Quiz() {
     const dispatch = useDispatch()
-    // useEffect(() => {
-    //   dispatch(userActions.fetchQuestions())
-    // }, [])
-    
-    function handleSubmit(e){
+    const { quiz, loading, error } = useSelector(state => state.quiz)
+  
+    useEffect(() => {
+      dispatch(fetchQuiz())
+    }, [dispatch])
+  
+    function handleSubmit(){
 
     }
+
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error: {error.message}</p>
   return (
     <>
     <Card>
@@ -61,10 +66,14 @@ export default function Quiz() {
                     </Button>
                 </Col>
             </Form.Group>
-                
             </Form>
         </Card.Body>
     </Card>
+    <ul>
+          {quiz.map(item => (
+            <li key={item.id}>{item.correctAnswer}</li>
+          ))}
+    </ul>
 </>
   )
 }

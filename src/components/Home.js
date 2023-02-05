@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import HomeNavBar from './HomeNavBar'
-import Quiz from './Quiz'
+import Quiz from '../Features/Quiz'
 
 export default function Home() {
     const [error, setError] = useState()
