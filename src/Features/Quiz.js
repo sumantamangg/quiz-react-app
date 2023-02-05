@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Col';
 import { useSelector, useDispatch} from 'react-redux'
 import { useEffect } from 'react';
-import { fetchQuiz, selectAnswer, nextQuestion, previousQuestion } from './QuizSlice';
+import { fetchQuiz, selectAnswer, nextQuestion, previousQuestion, calculateResult } from './QuizSlice';
 
 
 export default function Quiz() {
@@ -30,8 +30,9 @@ export default function Quiz() {
         dispatch(previousQuestion())
     }
 
-    function handleSubmit(){
-
+    function handleSubmit(e){
+        e.preventDefault()
+        dispatch(calculateResult())
     }
 
     if (loading) return <p>Loading...</p>
@@ -81,7 +82,9 @@ export default function Quiz() {
             <Form.Group>
                 <Col sm={10}>
                 {nextQuestionNumber === totalQuestions &&<Button 
-                    disabled={ answers.length != totalQuestions} type="submit" >
+                    disabled={ answers.length != totalQuestions} 
+                    type="submit" 
+                    >
                     Submit
                 </Button>}
                 </Col>

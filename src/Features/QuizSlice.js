@@ -24,6 +24,8 @@ const quizSlice = createSlice({
       answers: [],
       totalQuestions: 0,
       nextQuestionNumber: 1,
+      correctAnswers: [],
+      result: 0
     },
     reducers: {
       resetQuiz: (state) => {
@@ -46,6 +48,13 @@ const quizSlice = createSlice({
       previousQuestion: (state) => {
         state.currentQuestion -= 1;
         state.nextQuestionNumber = state.currentQuestion+1;
+      },
+      calculateResult: (state) => {
+        state.correctAnswers.forEach((element, index) => {
+          if (element === state.answers[index]){
+            state.result ++;
+          }
+        });
       }
     },
     extraReducers: (builder) => {
@@ -57,6 +66,10 @@ const quizSlice = createSlice({
         state.loading = false;
         state.allQuestions = action.payload.results;
         state.totalQuestions = action.payload.results.length;
+        const results = action.payload.results
+        results.forEach(element => {
+          state.correctAnswers.push(element.correct_answer)
+        });
       })
         .addCase(fetchQuiz.rejected, (state, action) =>{
         state.loading = false;
@@ -65,5 +78,5 @@ const quizSlice = createSlice({
     },
   });
 
-export const { resetQuiz, selectAnswer, nextQuestion, previousQuestion } = quizSlice.actions;
+export const { resetQuiz, selectAnswer, nextQuestion, previousQuestion, calculateResult } = quizSlice.actions;
 export default quizSlice.reducer;
