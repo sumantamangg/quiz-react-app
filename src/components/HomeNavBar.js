@@ -15,7 +15,7 @@ function HomeNavBar() {
       navigate('/login')
     } catch {
       setError('unable to login')
-      console.log("error in logging out")
+      return <p> {error} </p>
     }
   }
   return (

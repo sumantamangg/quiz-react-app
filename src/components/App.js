@@ -5,7 +5,6 @@ import Signup from "./Signup"
 import Login from "./Login"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import PrivateRoute from "./PrivateRoute"
-import HomeNavBar from "./HomeNavBar"
 
 function App() {
     return (

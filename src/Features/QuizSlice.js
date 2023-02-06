@@ -29,18 +29,6 @@ const quizSlice = createSlice({
       quizComplete: false
     },
     reducers: {
-      resetQuiz: (state) => {
-        state.loading = false;
-        state.error = null;
-        state.allQuestions = [];
-        state.currentQuestion = 0;
-        state.answers = [];
-        state.totalQuestions = 0;
-        state.nextQuestionNumber = 1;
-        state.correctAnswers = [];
-        state.result = 0;
-        state.quizComplete = false
-      },
       selectAnswer: (state, action) => {
         state.answers[state.currentQuestion] = action.payload;
         state.nextQuestionNumber = state.currentQuestion+1;

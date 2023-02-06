@@ -1,23 +1,20 @@
-import react, { useState } from 'react'
-import { Card, Button, Form, Alert } from 'react-bootstrap'
+import { Card, Button, Form } from 'react-bootstrap'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Col';
 import { useSelector, useDispatch} from 'react-redux'
 import { useEffect } from 'react';
-import { fetchQuiz, selectAnswer, nextQuestion, previousQuestion, calculateResult, resetQuiz } from './QuizSlice';
+import { fetchQuiz, selectAnswer, nextQuestion, previousQuestion, calculateResult } from './QuizSlice';
 
 export default function Quiz() {
     const dispatch = useDispatch()
     const { allQuestions, loading, error, currentQuestion, totalQuestions, 
         answers, nextQuestionNumber, result, quizComplete } = 
         useSelector(state => state.quiz)
-    //const [selectedOption, setSelectedOption] = useState('');
 
     const handleOptionChange = (e) => {
-        //setSelectedOption(e.target.value);
         dispatch(selectAnswer(e.target.value))
     };
-  
+
     useEffect(() => {
       dispatch(fetchQuiz())
     }, [])
@@ -82,7 +79,7 @@ export default function Quiz() {
                         onClick= {()=>{handlePreviousButton()}}>
                         Previous 
                     </Button>}
-                    {nextQuestionNumber != totalQuestions &&<Button 
+                    {nextQuestionNumber !== totalQuestions &&<Button 
                         disabled={ nextQuestionNumber > answers.length } 
                         type="button" 
                         onClick={()=>{handleNextButton()}}
@@ -94,7 +91,7 @@ export default function Quiz() {
             <Form.Group>
                 <Col sm={10}>
                 {nextQuestionNumber === totalQuestions &&<Button 
-                    disabled={ answers.length != totalQuestions} 
+                    disabled={ answers.length !== totalQuestions} 
                     type="submit" 
                     >
                     Submit
