@@ -52,8 +52,3 @@ const store = configureStore({
 })
 
 export default store
-//dispatch
-// store.subscribe(() => {
-//     console.log(store.getState)
-// })
-// store.dispatch(fetchQuestions())

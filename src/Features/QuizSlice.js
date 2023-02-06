@@ -32,12 +32,10 @@ const quizSlice = createSlice({
       selectAnswer: (state, action) => {
         state.answers[state.currentQuestion] = action.payload;
         state.nextQuestionNumber = state.currentQuestion+1;
-        console.log(state.currentQuestion, state.nextQuestionNumber, state.answers.length, state.totalQuestions)
       },
       nextQuestion: (state) => {
         state.currentQuestion += 1;
         state.nextQuestionNumber = state.currentQuestion+1;
-        console.log(state.currentQuestion, state.nextQuestionNumber, state.answers.length, state.totalQuestions)
       },
       previousQuestion: (state) => {
         state.currentQuestion -= 1;
